@@ -4,7 +4,6 @@ const errorMap = require('../utils/errorMap');
 const HTTP_OK_STATUS = 200;
 const HTTP_CREATED_STATUS = 201;
 const HTTP_NO_CONTENT_STATUS = 204;
-const HTTP_BAD_REQUEST_STATUS = 400;
 
 const listProducts = async (_req, res) => {
   const { type, message } = await productsService.findAll();
@@ -34,12 +33,6 @@ const deleteProduct = async (req, res) => {
 
 const createProduct = async (req, res) => {
   const { name } = req.body;
-
-  if (!name) {
-    return res.status(HTTP_BAD_REQUEST_STATUS).json({
-      message: '"name" is required',
-    });
-  }
   
   const { type, message } = await productsService.createProduct(name);
 
