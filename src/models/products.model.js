@@ -16,6 +16,15 @@ const findAll = async () => {
   return camelize(result);
 };
 
+const insert = async (productName) => {
+  const [{ insertId }] = await connection.execute(
+    'INSERT INTO StoreManager.products (name) VALUE (?)',
+    [productName],
+  );
+
+  return insertId;
+};
+
 const deleteById = async (productId) => {
   await connection.execute(
     'DELETE FROM StoreManager.products WHERE id = ?',
@@ -26,5 +35,6 @@ const deleteById = async (productId) => {
 module.exports = {
   findById,
   findAll,
+  insert,
   deleteById,
 };
