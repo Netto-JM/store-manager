@@ -20,7 +20,6 @@ const findAll = async () => {
     INNER JOIN StoreManager.sales AS s
     ON sp.sale_id = s.id`,
   );
-  console.log('findAll', result);
   return camelize(result);
 };
 
