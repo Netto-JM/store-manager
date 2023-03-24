@@ -24,7 +24,15 @@ const findAll = async () => {
   return camelize(result);
 };
 
+const deleteById = async (saleId) => {
+  await connection.execute(
+    'DELETE FROM StoreManager.sales WHERE id = ?',
+    [saleId],
+  );
+};
+
 module.exports = {
   findById,
   findAll,
+  deleteById,
 };
