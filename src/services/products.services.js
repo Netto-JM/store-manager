@@ -23,7 +23,7 @@ const deleteById = async (productId) => {
   const product = await productsModel.findById(productId);
   if (!product) return { type: 'PRODUCT_NOT_FOUND', message: 'Product not found' };
 
-  productsModel.deleteById(productId);
+  await productsModel.deleteById(productId);
 
   return { type: null };
 };

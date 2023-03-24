@@ -23,7 +23,7 @@ const deleteById = async (saleId) => {
   const sale = await salesModel.findById(saleId);
   if (!sale) return { type: 'SALE_NOT_FOUND', message: 'Sale not found' };
 
-  salesModel.deleteById(saleId);
+  await salesModel.deleteById(saleId);
 
   return { type: null };
 };
