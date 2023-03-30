@@ -93,17 +93,23 @@ describe('Service unit tests for products', function () {
       // Arrange
       sinon.stub(productsModel, 'findById').resolves(undefined);
       // Act
-      const result = await productsService.updateById(productsModelMocks.notExistingProductId, productsModelMocks.validProductName);
+      const result = await productsService
+        .updateById(productsModelMocks.notExistingProductId, productsModelMocks.validProductName);
       // Assert
       expect(result).to.be.deep.equal(productsServiceMocks.notExistingIdResponse);
     });
     
     it('should update a product by its id', async function () {
       // Arrange
-      sinon.stub(productsModel, 'findById').resolves(productsServiceMocks.updatedProductBody);
+      sinon.stub(productsModel, 'findById')
+        .onFirstCall()
+        .resolves(productsModelMocks.allProductsResponse[0])
+        .onSecondCall()
+        .resolves(productsServiceMocks.updatedProductBody);
       sinon.stub(productsModel, 'updateById').resolves();
       // Act
-      const result = await productsService.updateById(productsModelMocks.validProductId, productsServiceMocks.updatedProductName);
+      const result = await productsService
+        .updateById(productsModelMocks.validProductId, productsServiceMocks.updatedProductName);
       // Assert
       expect(result).to.be.deep.equal(productsServiceMocks.updatedProductResponse);
     });
