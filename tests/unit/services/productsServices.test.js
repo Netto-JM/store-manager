@@ -112,6 +112,7 @@ describe('Service unit tests for products', function () {
         .updateById(productsModelMocks.validProductId, productsServiceMocks.updatedProductName);
       // Assert
       expect(result).to.be.deep.equal(productsServiceMocks.updatedProductResponse);
+      expect(productsModel.findById).to.be.calledTwice;
     });
   });
 
