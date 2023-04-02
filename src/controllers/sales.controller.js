@@ -5,9 +5,7 @@ const HTTP_OK_STATUS = 200;
 const HTTP_NO_CONTENT_STATUS = 204;
 
 const listSales = async (_req, res) => {
-  const { type, message } = await salesService.findAll();
-
-  if (type) return res.status(errorMap.mapError(type)).json({ message });
+  const { message } = await salesService.findAll();
 
   res.status(HTTP_OK_STATUS).json(message);
 };

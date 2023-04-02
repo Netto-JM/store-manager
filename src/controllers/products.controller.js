@@ -6,9 +6,7 @@ const HTTP_CREATED_STATUS = 201;
 const HTTP_NO_CONTENT_STATUS = 204;
 
 const listProducts = async (_req, res) => {
-  const { type, message } = await productsService.findAll();
-
-  if (type) return res.status(errorMap.mapError(type)).json({ message });
+  const { message } = await productsService.findAll();
 
   res.status(HTTP_OK_STATUS).json(message);
 };
