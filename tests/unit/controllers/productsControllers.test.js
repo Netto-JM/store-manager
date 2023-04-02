@@ -173,6 +173,160 @@ describe('Controller unit tests for products', function () {
     });
   });
 
+  describe('Creating a single product', function () {
+    it('should return status 201 and the newly created product', async function () {
+      // arrange
+      const res = {};
+      const req = {
+        body: {
+          name: productsServiceMocks.newProductName,
+        },
+      };
+      
+      res.status = sinon.stub().returns(res);
+      res.json = sinon.stub().returns();
+      sinon
+        .stub(productsService, 'createProduct')
+        .resolves(productsServiceMocks.newProductResponse);
+
+      // act
+      await productsController.createProduct(req, res);
+
+      // assert
+      expect(res.status).to.have.been.calledWith(201);
+      expect(res.json).to.have.been.calledWith(productsServiceMocks.newProductResponse.message);
+    });
+
+    it('should return an error if an invalid name is passed', async function () {
+      // arrange
+      const res = {};
+      const req = {
+        body: {
+          name: 'foo',
+        },
+      };
+
+      res.status = sinon.stub().returns(res);
+      res.json = sinon.stub().returns();
+      sinon
+        .stub(productsService, 'createProduct')
+        .resolves(productsServiceMocks.invalidNameResponse);
+
+      // act
+      await productsController.createProduct(req, res);
+
+      // assert
+      expect(res.status).to.have.been.calledWith(422);
+      expect(res.json).to.have.been.calledWith({ message: productsServiceMocks.invalidNameResponse.message });
+    });
+  });
+
+  describe('Updating a single product', function () {
+    it('should return status 200 and the updated product', async function () {
+      // arrange
+      const res = {};
+      const req = {
+        body: {
+          name: productsServiceMocks.updatedProductName,
+        },
+        params: {
+          id: 1,
+        },
+      };
+
+      res.status = sinon.stub().returns(res);
+      res.json = sinon.stub().returns();
+      sinon
+        .stub(productsService, 'updateById')
+        .resolves(productsServiceMocks.updatedProductResponse);
+
+      // act
+      await productsController.updateProduct(req, res);
+
+      // assert
+      expect(res.status).to.have.been.calledWith(200);
+      expect(res.json).to.have.been.calledWith(productsServiceMocks.updatedProductResponse.message);
+    });
+
+    it('should return an error if an invalid name is passed', async function () {
+      // arrange
+      const res = {};
+      const req = {
+        body: {
+          name: 'foo',
+        },
+        params: {
+          id: 1,
+        },
+      };
+
+      res.status = sinon.stub().returns(res);
+      res.json = sinon.stub().returns();
+      sinon
+        .stub(productsService, 'updateById')
+        .resolves(productsServiceMocks.invalidNameResponse);
+
+      // act
+      await productsController.updateProduct(req, res);
+
+      // assert
+      expect(res.status).to.have.been.calledWith(422);
+      expect(res.json).to.have.been.calledWith({ message: productsServiceMocks.invalidNameResponse.message });
+    });
+
+    it('should return an error if an invalid id is passed', async function () {
+      // arrange
+      const res = {};
+      const req = {
+        body: {
+          name: productsServiceMocks.updatedProductName,
+        },
+        params: {
+          id: 'abc',
+        },
+      };
+      
+      res.status = sinon.stub().returns(res);
+      res.json = sinon.stub().returns();
+      sinon
+        .stub(productsService, 'updateById')
+        .resolves(productsServiceMocks.invalidIdResponse);
+
+      // act
+      await productsController.updateProduct(req, res);
+
+      // assert
+      expect(res.status).to.have.been.calledWith(422);
+      expect(res.json).to.have.been.calledWith({ message: productsServiceMocks.invalidIdResponse.message });
+    });
+
+    it('should return an error if a nonexistent id is passed', async function () {
+      // arrange
+      const res = {};
+      const req = {
+        body: {
+          name: productsServiceMocks.updatedProductName,
+        },
+        params: {
+          id: 999,
+        },
+      };
+      
+      res.status = sinon.stub().returns(res);
+      res.json = sinon.stub().returns();
+      sinon
+        .stub(productsService, 'updateById')
+        .resolves(productsServiceMocks.notExistingIdResponse);
+
+      // act
+      await productsController.updateProduct(req, res);
+
+      // assert
+      expect(res.status).to.have.been.calledWith(404);
+      expect(res.json).to.have.been.calledWith({ message: productsServiceMocks.notExistingIdResponse.message });
+    });
+  });
+
   afterEach(function () {
     sinon.restore();
   });
